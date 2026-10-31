@@ -37,8 +37,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-IN" className={`${inter.variable} ${instrument.variable} ${caveat.variable}`} suppressHydrationWarning>
       <head>
-        {/* motion styles only apply once JS runs, so the page is fully readable without it */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/* Motion styles only apply once JS runs, so the page is fully readable without it.
+            suppressHydrationWarning: some browser extensions (pop-up/ad blockers) rewrite the first <script> in <head>
+            before React loads; React must not treat that as an error. If an extension blanks it, the page simply
+            shows without animations. */}
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body>
         <DownloadProvider qr={qr} downloadUrl={downloadUrl}>

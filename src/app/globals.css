@@ -37,6 +37,7 @@
     background: var(--color-ivory);
     color: var(--color-charcoal);
     scrollbar-gutter: stable; /* opening a dialog (scroll lock) does not shift the page */
+    overflow-x: clip; /* safety net: nothing may widen the page (clip keeps position: sticky working) */
     -webkit-text-size-adjust: 100%;
   }
   body {

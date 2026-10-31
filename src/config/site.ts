@@ -118,6 +118,7 @@ export const site = {
     listing: { src: "", label: "Listing", alt: "A listing in HUX" }, // TODO
     pay: { src: "", label: "Pay seller", alt: "Paying the seller by UPI in HUX" }, // TODO
     chat: { src: "", label: "Chat", alt: "A chat between buyer and seller in HUX" }, // TODO
+    handover: { src: "", label: "Handover code", alt: "The meeting point and one-time handover code in HUX" }, // TODO
     points: { src: "", label: "Points", alt: "HUX coins and rewards screen" }, // TODO
   } satisfies Record<string, Screen>,
 

@@ -59,7 +59,8 @@ try {
       await page.goto(base + p, { waitUntil: 'domcontentloaded' });
       await settle(page);
       const { sw, iw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: window.innerWidth }));
-      note(sw <= iw, `no horizontal overflow ${p} @ ${w}px`, `scrollWidth ${sw} / innerWidth ${iw}`);
+      // compare with the device width: on a phone the layout viewport itself widens if something sticks out
+      note(sw <= w && iw <= w, `no horizontal overflow ${p} @ ${w}px`, `scrollWidth ${sw} / innerWidth ${iw} / device ${w}`);
       const name = `${(p === '/' ? 'home' : p.replace(/\//g, '-').replace(/^-|-$/g, ''))}-${w}.png`;
       await page.screenshot({ path: path.join(out, name), fullPage: true });
       await ctx.close();
