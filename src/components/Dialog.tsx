@@ -23,7 +23,8 @@ export function Dialog({
   open: boolean;
   onClose: () => void;
   title: string;
-  variant?: "sheet" | "modal";
+  /** full: a full-height page (the mobile menu) */
+  variant?: "sheet" | "modal" | "full";
   children: ReactNode;
 }) {
   const panel = useRef<HTMLDivElement>(null);
@@ -72,10 +73,12 @@ export function Dialog({
 
   if (!mounted) return null;
   const sheet = variant === "sheet";
+  const full = variant === "full";
+  const from = full ? { opacity: 0, y: -12 } : sheet ? { y: 48, opacity: 0 } : { scale: 0.96, opacity: 0 };
   return createPortal(
     <AnimatePresence>
       {open ? (
-        <div className={`fixed inset-0 z-[70] flex justify-center ${sheet ? "items-end md:items-center" : "items-center"} p-0 ${sheet ? "md:p-6" : "p-4"}`}>
+        <div className={`fixed inset-0 z-[70] flex justify-center ${full ? "items-stretch" : sheet ? "items-end p-0 md:items-center md:p-6" : "items-center p-4"}`}>
           <motion.button
             type="button"
             aria-label="Close"
@@ -93,12 +96,12 @@ export function Dialog({
             aria-modal="true"
             aria-labelledby={titleId}
             tabIndex={-1}
-            className={`relative z-10 w-full max-h-[88dvh] overflow-y-auto overscroll-contain bg-ivory text-ink-2 shadow-warm outline-none ${
-              sheet ? "rounded-t-[28px] md:max-w-lg md:rounded-[28px]" : "max-w-md rounded-[28px]"
+            className={`relative z-10 w-full overflow-y-auto overscroll-contain bg-ivory text-ink-2 outline-none ${
+              full ? "h-[100dvh]" : sheet ? "max-h-[88dvh] rounded-t-[28px] shadow-warm md:max-w-lg md:rounded-[28px]" : "max-h-[88dvh] max-w-md rounded-[28px] shadow-warm"
             }`}
-            initial={sheet ? { y: 48, opacity: 0 } : { scale: 0.96, opacity: 0 }}
-            animate={sheet ? { y: 0, opacity: 1 } : { scale: 1, opacity: 1 }}
-            exit={sheet ? { y: 48, opacity: 0 } : { scale: 0.96, opacity: 0 }}
+            initial={from}
+            animate={{ y: 0, scale: 1, opacity: 1 }}
+            exit={from}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
             {sheet ? <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-line md:hidden" aria-hidden="true" /> : null}

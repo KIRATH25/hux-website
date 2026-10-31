@@ -107,26 +107,35 @@ export const site = {
     },
   ] satisfies MerchItem[],
 
-  // TODO: real screenshots from the phone (1080x2400). Until then PhoneFrame shows "Screenshot: <label>".
+  // Real screenshots of the app (1080x2400). The signed-out screens were captured from the app itself by
+  // scripts/capture-app.mjs. Signed-in screens need a phone: until then PhoneFrame shows "Screenshot: <label>".
   screens: {
-    home: { src: "", label: "Home", alt: "HUX home screen" },
-    listing: { src: "", label: "Listing", alt: "A listing in HUX" },
-    pay: { src: "", label: "Pay seller", alt: "Paying the seller by UPI in HUX" },
-    chat: { src: "", label: "Chat", alt: "A chat between buyer and seller in HUX" },
-    points: { src: "", label: "Points", alt: "HUX coins and rewards screen" },
+    onboarding1: { src: "/screens/onboarding-1.webp", label: "Have something useful?", alt: "HUX welcome screen: lend gear, swap skills, only for GLA students" },
+    onboarding2: { src: "/screens/onboarding-2.webp", label: "Need something?", alt: "HUX screen listing tutoring, gear rentals, project teammates and community aid" },
+    onboarding3: { src: "/screens/onboarding-3.webp", label: "Ask in plain words", alt: "HUX screen explaining how to ask for what you need" },
+    signup: { src: "/screens/signup.webp", label: "Sign up", alt: "HUX sign-up screen for GLA University e-mail addresses only" },
+    home: { src: "", label: "Home", alt: "HUX home screen" }, // TODO: from a phone
+    listing: { src: "", label: "Listing", alt: "A listing in HUX" }, // TODO
+    pay: { src: "", label: "Pay seller", alt: "Paying the seller by UPI in HUX" }, // TODO
+    chat: { src: "", label: "Chat", alt: "A chat between buyer and seller in HUX" }, // TODO
+    points: { src: "", label: "Points", alt: "HUX coins and rewards screen" }, // TODO
   } satisfies Record<string, Screen>,
 
   contact: {
-    email: "" as string, // TODO
-    instagram: "" as string, // TODO: handle without @
+    email: "kirathkumarsharma@gmail.com" as string,
+    instagram: "" as string, // none: the Instagram icon stays hidden
   },
 
   team: {
     name: "Team 100",
     university: "GLA University, Mathura",
-    members: [] as string[], // TODO
-    guide: "" as string, // TODO: project guide's name
+    // names only: the members' personal e-mail addresses are not published on the site
+    members: ["Soumya Upadhyay", "Kirath Kumar Sharma", "Urvashi Gupta"] as string[],
+    guide: "" as string, // not given: the line is hidden
   },
+
+  /** No delete button in the app (not wanted for now): /delete-account offers an e-mail request instead. */
+  inAppAccountDeletion: false,
 
   /** the brand's own lines from the HUX sticker sheets, used as handwritten notes */
   slogans: ["Your skills have value", "Better people, bigger possibilities", "Think. Build. Exchange.", "More skills, more freedom"],
