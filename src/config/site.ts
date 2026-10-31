@@ -118,8 +118,9 @@ export const site = {
     },
   ] satisfies MerchItem[],
 
-  // Real screenshots of the app (1080x2400). The signed-out screens were captured from the app itself by
-  // scripts/capture-app.mjs. Signed-in screens need a phone: until then PhoneFrame shows "Screenshot: <label>".
+  // Real screenshots of the app (1080x2400 source, served at 720x1600). Signed-out screens: scripts/capture-app.mjs.
+  // Pay seller, Handover code and Coins: scripts/capture-signed-in.mjs (the real app with a test session and sample numbers).
+  // Screens still without a src show a neutral "Screenshot: <label>" placeholder.
   screens: {
     onboarding1: { src: withBase("/screens/onboarding-1.webp"), label: "Have something useful?", alt: "HUX welcome screen: lend gear, swap skills, only for GLA students" },
     onboarding2: { src: withBase("/screens/onboarding-2.webp"), label: "Need something?", alt: "HUX screen listing tutoring, gear rentals, project teammates and community aid" },
@@ -127,10 +128,10 @@ export const site = {
     signup: { src: withBase("/screens/signup.webp"), label: "Sign up", alt: "HUX sign-up screen for GLA University e-mail addresses only" },
     home: { src: "", label: "Home", alt: "HUX home screen" }, // TODO: from a phone
     listing: { src: "", label: "Listing", alt: "A listing in HUX" }, // TODO
-    pay: { src: "", label: "Pay seller", alt: "Paying the seller by UPI in HUX" }, // TODO
+    pay: { src: withBase("/screens/pay.webp"), label: "Pay seller", alt: "HUX payment step: amount, the seller's masked UPI ID, Pay with UPI, Copy UPI ID and the UTR box" },
     chat: { src: "", label: "Chat", alt: "A chat between buyer and seller in HUX" }, // TODO
-    handover: { src: "", label: "Handover code", alt: "The meeting point and one-time handover code in HUX" }, // TODO
-    points: { src: "", label: "Points", alt: "HUX coins and rewards screen" }, // TODO
+    handover: { src: withBase("/screens/handover.webp"), label: "Handover code", alt: "HUX after payment: the meeting point and the 4-digit handover code" },
+    points: { src: withBase("/screens/points.webp"), label: "Coins", alt: "HUX coins screen: balance, how to earn and your referral code" },
   } satisfies Record<string, Screen>,
 
   contact: {
