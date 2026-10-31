@@ -29,6 +29,10 @@ export default function DownloadPage() {
       a: `If an older HUX was installed from somewhere else, uninstall it first. Also check that your phone has at least ${a.freeSpaceMB} MB free.`,
     },
     { q: '"Download blocked" or nothing happens', a: "You are probably inside Instagram, Facebook or another app's browser. Tap the menu (⋮) and choose Open in Chrome, then download again." },
+    {
+      q: 'Chrome says "This type of file can harm your device"',
+      a: 'Chrome shows this for every app file that does not come from the Play Store. Tap "Download anyway". Only do this for HUX downloaded from this website.',
+    },
     { q: "How do I update?", a: "Download the new APK from this page and install it over the old one. Your account and data stay." },
     {
       q: "Is it safe?",
@@ -45,7 +49,7 @@ export default function DownloadPage() {
     <main id="main">
       <PageHeader eyebrow="Download" title="HUX for Android" underline="Android" lead="Free to download. HUX is not on the Play Store yet, so you install the app file (APK) yourself. It takes about a minute." />
 
-      <section className="container-hux pb-6" data-reveal>
+      <section className="container-hux pb-6">
         <div className="grid gap-8 rounded-[28px] border border-line bg-paper p-6 shadow-warm-sm md:p-10 lg:grid-cols-[1.2fr_1fr_auto] lg:items-center">
           <div>
             <DownloadButton showMeta />

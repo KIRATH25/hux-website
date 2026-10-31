@@ -8,11 +8,14 @@
     "assets": "node scripts/prepare-assets.mjs",
     "prebuild": "node scripts/apk.mjs remove && node scripts/prepare-assets.mjs",
     "build": "next build",
-    "postbuild": "node scripts/check-out.mjs",
+    "postbuild": "node scripts/fix-export.mjs && node scripts/check-out.mjs",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "node --test \"tests/*.test.mjs\"",
-    "shots": "node scripts/shots.mjs"
+    "shots": "node scripts/shots.mjs",
+    "serve": "node scripts/serve-out.mjs 3100",
+    "capture": "node scripts/capture-app.mjs",
+    "og": "node scripts/make-og.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.66.0",
@@ -31,6 +34,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
     "jsqr": "^1.4.0",
+    "lighthouse": "^13.6.0",
     "playwright-core": "^1.64.1",
     "sharp": "^0.34.4",
     "tailwindcss": "^4",

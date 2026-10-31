@@ -30,8 +30,11 @@ export const site = {
   brand: "Feelfinity",
   tagline: "Campus exchange for GLA University students",
 
-  /** e.g. "https://hux.app". Empty until you have a domain: the QR code then points at this computer's network address. */
-  domain: "" as string,
+  /**
+   * The live address, e.g. "https://hux-website.pages.dev" or your own domain. Set NEXT_PUBLIC_SITE_URL in Cloudflare Pages
+   * (see DEPLOY.md). Empty = local preview: the QR code then points at this computer's network address.
+   */
+  domain: (process.env.NEXT_PUBLIC_SITE_URL ?? "") as string,
 
   apk: {
     /**

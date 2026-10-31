@@ -1,6 +1,5 @@
 "use client";
 
-import { MotionConfig } from "motion/react";
 import { Check, Copy, EllipsisVertical } from "lucide-react";
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { apkMetaLine, site } from "@/config/site";
@@ -8,6 +7,7 @@ import { useBrowserValue } from "@/lib/client";
 import { detectDevice, type Device } from "@/lib/device";
 import { Dialog } from "./Dialog";
 import { InstallSteps } from "./InstallSteps";
+
 
 type Sheet = "started" | "inapp" | "ios" | "desktop" | "steps" | null;
 
@@ -39,11 +39,18 @@ export function DownloadProvider({ qr, downloadUrl, children }: { qr: string; do
   const [sheet, setSheet] = useState<Sheet>(null);
 
   const close = useCallback(() => setSheet(null), []);
-  const value = useMemo<Ctx>(() => ({ device, qr, downloadUrl, open: (s) => setSheet(s) }), [device, qr, downloadUrl]);
+  const value = useMemo<Ctx>(
+    () => ({
+      device,
+      qr,
+      downloadUrl,
+      open: (s) => setSheet(s),
+    }),
+    [device, qr, downloadUrl],
+  );
 
   return (
-    <MotionConfig reducedMotion="user">
-      <DownloadCtx.Provider value={value}>
+    <DownloadCtx.Provider value={value}>
         {children}
 
         <Dialog open={sheet === "started"} onClose={close} title="Download started">
@@ -106,7 +113,6 @@ export function DownloadProvider({ qr, downloadUrl, children }: { qr: string; do
           </p>
         </Dialog>
       </DownloadCtx.Provider>
-    </MotionConfig>
   );
 }
 

@@ -13,7 +13,8 @@ export function Hero() {
     <section className="relative overflow-hidden pb-16 pt-8 lg:pb-24 lg:pt-14">
       <div className="container-hux grid items-center gap-14 lg:grid-cols-[1.02fr_1fr] lg:gap-8">
         {/* words */}
-        <div className="relative z-10" data-reveal>
+        {/* no fade-in above the fold: the headline and phones must paint at once (Largest Contentful Paint) */}
+        <div className="relative z-10">
           <p className="inline-flex items-center gap-2.5 rounded-full bg-sunflower-soft px-4 py-2 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-charcoal">
             <span className="size-2 rounded-full bg-green" aria-hidden="true" />
             Only for GLA University, Mathura
@@ -37,7 +38,7 @@ export function Hero() {
         </div>
 
         {/* phones */}
-        <div className="relative mx-auto h-[560px] w-full max-w-[400px] sm:h-[620px] sm:max-w-[560px] lg:h-[660px] lg:max-w-none" data-reveal style={{ ["--d" as string]: "120ms" }}>
+        <div className="relative mx-auto h-[560px] w-full max-w-[400px] sm:h-[620px] sm:max-w-[560px] lg:h-[660px] lg:max-w-none">
           <Hexagon className="absolute left-1/2 top-[64%] w-[108%] max-w-[760px] -translate-x-1/2 -translate-y-1/2 sm:top-[50%] sm:w-[118%]" />
           <Rings />
           <HeroTilt>

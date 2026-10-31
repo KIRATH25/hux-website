@@ -7,7 +7,7 @@ import { site } from "@/config/site";
 export const INSTALL_STEPS = [
   {
     title: "Download",
-    text: `Tap "Download for Android". The file ${site.apk.fileName} saves to your Downloads.`,
+    text: `Tap "Download for Android". If Chrome says the file may be harmful, tap "Download anyway". ${site.apk.fileName} saves to your Downloads.`,
   },
   {
     title: "Open the file",

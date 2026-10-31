@@ -4,7 +4,7 @@ import { ScribbleUnderline } from "./HandDrawn";
 export function PageHeader({ eyebrow, title, underline, lead, updated }: { eyebrow: string; title: string; underline?: string; lead?: string; updated?: string }) {
   const parts = underline ? title.split(underline) : [title];
   return (
-    <header className="container-hux pb-6 pt-10 lg:pt-16" data-reveal>
+    <header className="container-hux pb-6 pt-10 lg:pt-16">
       <p className="t-eyebrow">{eyebrow}</p>
       <h1 className="t-h1 mt-5 max-w-[16ch] !text-[44px] lg:!text-[72px]">
         {parts[0]}

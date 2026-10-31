@@ -1,12 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import { Plus } from "lucide-react";
 import { useId, useState, type ReactNode } from "react";
 
 /**
- * An accessible accordion: each question is a button with aria-expanded and aria-controls, one answer open at a time,
- * the height animates (instantly for reduced motion, via the site's MotionConfig).
+ * An accessible accordion: each question is a button with aria-expanded and aria-controls, one answer open at a time.
+ * The height animates with a CSS grid-rows transition (no animation library, so nothing extra loads); closed answers are
+ * `inert`, so keyboards and screen readers skip them. Reduced motion: no transition.
  */
 export function Accordion({ items, defaultOpen = 0 }: { items: { q: string; a: ReactNode }[]; defaultOpen?: number | null }) {
   const [open, setOpen] = useState<number | null>(defaultOpen);
@@ -39,23 +39,19 @@ export function Accordion({ items, defaultOpen = 0 }: { items: { q: string; a: R
                 </span>
               </button>
             </h3>
-            <AnimatePresence initial={false}>
-              {isOpen ? (
-                <motion.div
-                  id={panelId}
-                  role="region"
-                  aria-labelledby={buttonId}
-                  key="panel"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden"
-                >
-                  <div className="max-w-[62ch] pb-6 pr-14 text-[16px] leading-[1.65] text-ink-2">{item.a}</div>
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              inert={!isOpen}
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[var(--ease-out-soft)] motion-reduce:transition-none ${
+                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="max-w-[62ch] pb-6 pr-14 text-[16px] leading-[1.65] text-ink-2">{item.a}</div>
+              </div>
+            </div>
           </li>
         );
       })}

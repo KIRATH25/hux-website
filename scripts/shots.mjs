@@ -82,11 +82,12 @@ try {
       const btn = page.getByRole('link', { name: /Download for Android/ }).first();
       const [dl] = await Promise.all([page.waitForEvent('download', { timeout: 20000 }), btn.click()]);
       note(dl.suggestedFilename() === 'HUX.apk', 'Android: tapping Download starts a download of HUX.apk', dl.suggestedFilename());
-      const tmp = path.join(out, '_download.apk');
-      await dl.saveAs(tmp);
-      const size = fs.statSync(tmp).size;
-      fs.rmSync(tmp);
-      note(size > 50e6, 'Android: the downloaded file is the real APK', `${(size / 1e6).toFixed(1)} MB`);
+      // Chrome (v155+) cancels APK downloads in headless mode: on a real phone it asks "Download anyway?". So the file
+      // itself is checked straight from the server the link points to.
+      await dl.cancel().catch(() => {});
+      const href = await btn.getAttribute('href');
+      const size = await page.evaluate(async (u) => Number((await fetch(u, { method: 'HEAD' })).headers.get('content-length')), href);
+      note(size > 50e6, 'Android: the link serves the real APK', `${(size / 1e6).toFixed(1)} MB at ${href}`);
       const sheet = page.getByRole('dialog', { name: 'Download started' });
       await sheet.waitFor({ timeout: 3000 }).catch(() => {});
       note(await sheet.isVisible(), 'Android: the "Download started" sheet opens after the tap');

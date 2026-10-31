@@ -1,10 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, LazyMotion, MotionConfig, m } from "motion/react";
 import { X } from "lucide-react";
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useBrowserValue } from "@/lib/client";
+
+// the animation features load in the background right after the page (not on the first tap, not up front)
+const loadFeatures = () => import("@/lib/motion-features").then((mod) => mod.default);
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])';
 
@@ -76,10 +79,12 @@ export function Dialog({
   const full = variant === "full";
   const from = full ? { opacity: 0, y: -12 } : sheet ? { y: 48, opacity: 0 } : { scale: 0.96, opacity: 0 };
   return createPortal(
+    <LazyMotion features={loadFeatures} strict>
+    <MotionConfig reducedMotion="user">
     <AnimatePresence>
       {open ? (
         <div className={`fixed inset-0 z-[70] flex justify-center ${full ? "items-stretch" : sheet ? "items-end p-0 md:items-center md:p-6" : "items-center p-4"}`}>
-          <motion.button
+          <m.button
             type="button"
             aria-label="Close"
             tabIndex={-1}
@@ -90,7 +95,7 @@ export function Dialog({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           />
-          <motion.div
+          <m.div
             ref={panel}
             role="dialog"
             aria-modal="true"
@@ -119,10 +124,12 @@ export function Dialog({
               </button>
             </div>
             <div className="px-6 pb-[max(24px,env(safe-area-inset-bottom))] pt-2 md:px-8 md:pb-8">{children}</div>
-          </motion.div>
+          </m.div>
         </div>
       ) : null}
-    </AnimatePresence>,
+    </AnimatePresence>
+    </MotionConfig>
+    </LazyMotion>,
     document.body,
   );
 }
