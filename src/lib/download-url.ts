@@ -1,5 +1,5 @@
 import os from "node:os";
-import { site } from "@/config/site";
+import { basePath, site } from "@/config/site";
 
 /**
  * The address the desktop QR code opens: {domain}/download/.
@@ -8,7 +8,7 @@ import { site } from "@/config/site";
  */
 export function downloadPageUrl(): string {
   if (site.domain) return `${site.domain.replace(/\/$/, "")}/download/`;
-  return `http://${lanAddress() ?? "localhost"}:${process.env.PORT ?? 3100}/download/`;
+  return `http://${lanAddress() ?? "localhost"}:${process.env.PORT ?? 3100}${basePath}/download/`;
 }
 
 function lanAddress(): string | undefined {

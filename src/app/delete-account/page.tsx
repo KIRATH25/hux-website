@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Mail } from "lucide-react";
-import { site } from "@/config/site";
+import { site, withBase } from "@/config/site";
 import { Confirm } from "@/components/Confirm";
 import { PageHeader } from "@/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "Delete your account",
   description: "How to delete your HUX account and the data linked to it.",
-  alternates: { canonical: "/delete-account/" },
+  alternates: { canonical: withBase("/delete-account/") },
 };
 
 /** The page the Play Store will ask for. There is no delete button in the app (not wanted for now), so it is an e-mail request. */

@@ -6,6 +6,14 @@
  * and are listed at the end of each phase report. Nothing here is invented.
  */
 
+/**
+ * GitHub Pages serves this site from a sub-folder (https://kirath25.github.io/hux-website/), so every root path needs that
+ * prefix. NEXT_PUBLIC_BASE_PATH is set by the deploy workflow ("" locally); Next.js adds it to <Link> and its own files,
+ * withBase() adds it to plain image and link paths.
+ */
+export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+export const withBase = (p: string) => `${basePath}${p}`;
+
 export type MerchItem = {
   id: string;
   name: string;
@@ -42,7 +50,7 @@ export const site = {
      * Live site: set NEXT_PUBLIC_APK_URL to the GitHub Releases link, e.g.
      * https://github.com/KIRATH25/hux-releases/releases/latest/download/HUX.apk (see DEPLOY.md).
      */
-    url: process.env.NEXT_PUBLIC_APK_URL || "/HUX.apk",
+    url: process.env.NEXT_PUBLIC_APK_URL || withBase("/HUX.apk"),
     fileName: "HUX.apk",
     version: "1.0.0", // apps/mobile/app.json
     sizeMB: 98, // 98,299,884 bytes (EAS build fc53ba0b, 31 Oct 2026)
@@ -113,10 +121,10 @@ export const site = {
   // Real screenshots of the app (1080x2400). The signed-out screens were captured from the app itself by
   // scripts/capture-app.mjs. Signed-in screens need a phone: until then PhoneFrame shows "Screenshot: <label>".
   screens: {
-    onboarding1: { src: "/screens/onboarding-1.webp", label: "Have something useful?", alt: "HUX welcome screen: lend gear, swap skills, only for GLA students" },
-    onboarding2: { src: "/screens/onboarding-2.webp", label: "Need something?", alt: "HUX screen listing tutoring, gear rentals, project teammates and community aid" },
-    onboarding3: { src: "/screens/onboarding-3.webp", label: "Ask in plain words", alt: "HUX screen explaining how to ask for what you need" },
-    signup: { src: "/screens/signup.webp", label: "Sign up", alt: "HUX sign-up screen for GLA University e-mail addresses only" },
+    onboarding1: { src: withBase("/screens/onboarding-1.webp"), label: "Have something useful?", alt: "HUX welcome screen: lend gear, swap skills, only for GLA students" },
+    onboarding2: { src: withBase("/screens/onboarding-2.webp"), label: "Need something?", alt: "HUX screen listing tutoring, gear rentals, project teammates and community aid" },
+    onboarding3: { src: withBase("/screens/onboarding-3.webp"), label: "Ask in plain words", alt: "HUX screen explaining how to ask for what you need" },
+    signup: { src: withBase("/screens/signup.webp"), label: "Sign up", alt: "HUX sign-up screen for GLA University e-mail addresses only" },
     home: { src: "", label: "Home", alt: "HUX home screen" }, // TODO: from a phone
     listing: { src: "", label: "Listing", alt: "A listing in HUX" }, // TODO
     pay: { src: "", label: "Pay seller", alt: "Paying the seller by UPI in HUX" }, // TODO

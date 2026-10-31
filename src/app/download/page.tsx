@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/config/site";
+import { site, withBase } from "@/config/site";
 import { Accordion } from "@/components/Accordion";
 import { DownloadButton } from "@/components/DownloadButton";
 import { HandArrow, HandNote } from "@/components/HandDrawn";
@@ -10,7 +10,7 @@ import { QRCodeCard } from "@/components/QRCodeCard";
 export const metadata: Metadata = {
   title: "Download for Android",
   description: `Download the HUX Android app (APK, ${site.apk.sizeMB} MB, Android ${site.apk.minAndroid}+) and install it in five steps.`,
-  alternates: { canonical: "/download/" },
+  alternates: { canonical: withBase("/download/") },
 };
 
 /** The page the QR code opens: the button, version details, the install steps, troubleshooting and the checksum. */

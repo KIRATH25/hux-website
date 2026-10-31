@@ -1,73 +1,61 @@
-# Deploying the HUX website
+# Deploying the HUX website (GitHub)
 
-Two free services, two separate jobs:
+Everything lives on GitHub (account `KIRATH25`):
 
-| What | Where | Why |
+| Repo | What is in it | Public? |
 |---|---|---|
-| The APK file (98 MB) | **GitHub Releases**, public repo `hux-releases` | Big files, no bandwidth limit, one link that always gives the newest version |
-| The website (3.3 MB) | **Cloudflare Pages** | Free, commercial use allowed, unlimited bandwidth. Refuses files over 25 MB, so the APK must **not** be in the website |
+| [`hux-website`](https://github.com/KIRATH25/hux-website) | This code. GitHub Pages builds and publishes it on every push. | Yes (GitHub Pages needs a public repo on a free account) |
+| [`hux-releases`](https://github.com/KIRATH25/hux-releases) | Only a README and the APK under **Releases** (98 MB is too big for the website itself). | Yes |
+| [`HUX`](https://github.com/KIRATH25/HUX) | The app. Nothing website-related goes there. | — |
 
-## 1. Put the APK on GitHub Releases (once per app version)
+**Live site:** https://kirath25.github.io/hux-website/
+**Download link (always the newest APK):** https://github.com/KIRATH25/hux-releases/releases/latest/download/HUX.apk
 
-1. On GitHub (account `KIRATH25`): **New repository** → name `hux-releases` → **Public** → tick "Add a README" → Create. No source code goes in it.
-2. In that repo: **Releases → Create a new release**.
-   - Tag: `v1.0.0` (the app version from `apps/mobile/app.json`)
-   - Title: `HUX 1.0.0`
-   - Attach the APK, renamed to exactly **`HUX.apk`** (from `E:\hux\apk\application-….apk`).
-   - Publish.
-3. The download link is now, and stays, for every future release:
-   `https://github.com/KIRATH25/hux-releases/releases/latest/download/HUX.apk`
-   Keep the file name `HUX.apk` the same in every release.
+## How publishing works
 
-## 2. Put the website code on GitHub
+1. You change something here and `git push`.
+2. GitHub Actions (`.github/workflows/deploy.yml`) runs `npm ci` and `npm run build` with:
+   - `NEXT_PUBLIC_BASE_PATH` = `/hux-website` (the site lives in a sub-folder on GitHub Pages)
+   - `NEXT_PUBLIC_SITE_URL` = `https://kirath25.github.io/hux-website` (QR code, sitemap, sharing links)
+   - `NEXT_PUBLIC_APK_URL` = the `hux-releases` link above
+3. It uploads `out/` to GitHub Pages. About 2 minutes later the site is updated.
 
-```powershell
-cd E:\hux-website
-git remote add origin https://github.com/KIRATH25/hux-website.git   # create the empty repo on GitHub first (private is fine)
-git push -u origin master
-```
+Watch it under the repo's **Actions** tab. A red run means nothing changed on the live site; open it to see the error.
 
-The APK and the `qa/` screenshots are ignored by git and never uploaded.
+## A new app version
 
-## 3. Connect Cloudflare Pages
-
-1. dash.cloudflare.com → **Workers & Pages → Create → Pages → Connect to Git** → choose `hux-website`.
-2. Build settings:
-   - Framework preset: **Next.js (Static HTML Export)**
-   - Build command: `npm run build`
-   - Build output directory: `out`
-3. **Environment variables** (Production):
-   - `NEXT_PUBLIC_APK_URL` = `https://github.com/KIRATH25/hux-releases/releases/latest/download/HUX.apk`
-   - `NODE_VERSION` = `22`
-4. Save and deploy. You get an address like `https://hux-website.pages.dev`.
-5. Add one more variable, `NEXT_PUBLIC_SITE_URL` = that address (e.g. `https://hux-website.pages.dev`), and **Retry deployment**. The QR code, sitemap, robots.txt and sharing links then use the real address.
-
-Later, with your own domain: Cloudflare Pages → Custom domains → add it, change `NEXT_PUBLIC_SITE_URL` to it, and redeploy.
-
-## 4. Test the live site (section 8 of the brief)
-
-- [ ] Android phone, Chrome: tap **Download for Android** → Chrome may say "This type of file can harm your device" → **Download anyway** → the "Download started" sheet appears → install with the five steps → the app opens.
-- [ ] Open the link from inside Instagram on Android: the "Open this page in Chrome" sheet appears instead of a download.
-- [ ] iPhone: the button says "iPhone version coming soon"; no APK is offered anywhere.
-- [ ] Computer: the button opens the QR code; scanning it with an Android phone opens `/download/`.
-- [ ] The QR code and links show the live address (not 192.168.x.x).
-- [ ] Remove every `TODO-CONFIRM` marker on `/privacy/`, `/terms/` and `/delete-account/` once the sentence is confirmed.
-
-## 5. A new app version
-
-1. GitHub `hux-releases` → new release (`v1.0.1`, …) with the new file renamed `HUX.apk`. The download link does not change.
+1. https://github.com/KIRATH25/hux-releases/releases/new
+   - Tag: the new version, e.g. `v1.0.1`
+   - Attach the APK renamed to exactly **`HUX.apk`**, then **Publish release**.
+   The download link does not change: it always points to the latest release.
 2. In `src/config/site.ts` update `apk.version`, `apk.sizeMB`, `apk.updated` and `apk.sha256`
    (`Get-FileHash E:\hux\apk\<file>.apk -Algorithm SHA256` in PowerShell).
-3. `git commit` and `git push`: Cloudflare rebuilds the site by itself.
+3. `git commit` and `git push`.
+
+## Your own domain (later)
+
+1. Repo **Settings → Pages → Custom domain**, and follow GitHub's DNS steps.
+2. The workflow picks up the new address by itself on the next push (no sub-folder any more).
+
+## Test after each change (section 8 of the brief)
+
+- [ ] Android phone, Chrome: **Download for Android** → Chrome may say "This type of file can harm your device" → **Download anyway** → the "Download started" sheet appears → install with the five steps.
+- [ ] Open the link from inside Instagram on Android: the "Open this page in Chrome" sheet appears instead of a download.
+- [ ] iPhone: "iPhone version coming soon"; no APK offered anywhere.
+- [ ] Computer: the button opens the QR code; scanning it with an Android phone opens `/download/` on the live site.
+- [ ] Remove each `TODO-CONFIRM` marker on `/privacy/`, `/terms/` and `/delete-account/` once the sentence is confirmed.
 
 ## Local commands
 
 | Command | What it does |
 |---|---|
 | `npm run dev` | Preview with live reload on http://localhost:3100 (copies the newest APK from `E:\hux\apk` so Download works locally) |
-| `npm run build` | The real static site in `out/` (removes the local APK copy first; fails if any file is over 25 MB) |
+| `npm run build` | The static site in `out/` (removes the local APK copy first; fails if any file is over 25 MB) |
 | `npm run serve` | Serves `out/` like a static host, for testing the build |
 | `npm test` | Device-detection tests |
 | `npm run shots -- phase6` | Screenshots and checks (overflow, download flows, QR) into `qa/` |
 | `npm run assets` | Converts merch photos, logo and screenshots to WebP |
 | `npm run capture` | Captures the app's real signed-out screens (needs `npm run web` in `E:\hux`) |
+
+To test the GitHub Pages sub-folder locally:
+`$env:NEXT_PUBLIC_BASE_PATH="/hux-website"; npm run build; $env:BASE="/hux-website"; npm run serve` → http://localhost:3100/hux-website/

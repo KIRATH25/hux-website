@@ -11,6 +11,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const out = path.join(root, 'out');
 const apkDir = process.env.HUX_APK_DIR || path.resolve(root, '..', 'hux', 'apk');
 const port = Number(process.argv[2] || 3100);
+// BASE=/hux-website mimics GitHub Pages, which serves the site from a sub-folder
+const base = (process.env.BASE || '').replace(/\/$/, '');
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png',
   '.webp': 'image/webp', '.woff2': 'font/woff2', '.json': 'application/json', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml',
@@ -19,7 +21,12 @@ const TYPES = {
 
 http
   .createServer((req, res) => {
-    const url = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    let url = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    if (base) {
+      if (url === '/' || url === base) return res.writeHead(302, { Location: base + '/' }).end();
+      if (!url.startsWith(base + '/')) return res.writeHead(404).end('not under ' + base);
+      url = url.slice(base.length);
+    }
     let file;
     if (url === '/HUX.apk') {
       const apks = fs.existsSync(apkDir) ? fs.readdirSync(apkDir).filter((f) => f.endsWith('.apk')) : [];
@@ -29,7 +36,7 @@ http
       if (!p.startsWith(out)) return res.writeHead(400).end();
       if (fs.existsSync(p) && fs.statSync(p).isFile()) file = p;
       else if (fs.existsSync(path.join(p, 'index.html'))) {
-        if (!url.endsWith('/')) return res.writeHead(308, { Location: url + '/' }).end();
+        if (!url.endsWith('/')) return res.writeHead(308, { Location: base + url + '/' }).end();
         file = path.join(p, 'index.html');
       }
     }
@@ -42,4 +49,4 @@ http
     if (req.method === 'HEAD') return res.end();
     fs.createReadStream(file).pipe(res);
   })
-  .listen(port, () => console.log(`serving out/ on http://localhost:${port}`));
+  .listen(port, () => console.log(`serving out/ on http://localhost:${port}${base}/`));

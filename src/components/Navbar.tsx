@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import { Dialog } from "./Dialog";
 import { DownloadButton } from "./DownloadButton";
 import { Logo } from "./Logo";
+import { withBase } from "@/config/site";
 
 export const NAV_LINKS = [
-  { href: "/#features", label: "Features" },
-  { href: "/#how", label: "How it works" },
-  { href: "/#rewards", label: "Rewards" },
-  { href: "/#pricing", label: "Pricing" },
-  { href: "/#faq", label: "FAQ" },
+  { href: withBase("/#features"), label: "Features" },
+  { href: withBase("/#how"), label: "How it works" },
+  { href: withBase("/#rewards"), label: "Rewards" },
+  { href: withBase("/#pricing"), label: "Pricing" },
+  { href: withBase("/#faq"), label: "FAQ" },
 ] as const;
 
 /** Sticky navbar: transparent at the top, ivory with an 8px blur and a hairline once the page has scrolled 20px. */

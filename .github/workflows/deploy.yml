@@ -1,0 +1,56 @@
+# Builds the static site and publishes it on GitHub Pages, on every push to master (or by hand from the Actions tab).
+# The live address and its sub-folder (e.g. https://kirath25.github.io/hux-website/) come from GitHub itself.
+# The APK is NOT in this repo: the Download button links to the newest file in the public "hux-releases" repo
+# (override with a repository variable APK_URL if it ever moves).
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          NEXT_PUBLIC_APK_URL: ${{ vars.APK_URL || format('https://github.com/{0}/hux-releases/releases/latest/download/HUX.apk', github.repository_owner) }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

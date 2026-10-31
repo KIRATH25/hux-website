@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Caveat, Instrument_Serif, Inter } from "next/font/google";
-import { site } from "@/config/site";
+import { site, withBase } from "@/config/site";
 import { DownloadProvider } from "@/components/DownloadProvider";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
@@ -18,13 +18,13 @@ const description =
   "HUX lets verified GLA University students buy, sell, rent and swap things, skills and time with each other. No strangers. No middlemen. Download the Android app.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.domain || "http://localhost:3100"),
+  metadataBase: new URL(site.domain ? new URL(site.domain).origin : "http://localhost:3100"),
   title: { default: title, template: `%s · ${site.name}` },
   description,
   applicationName: site.name,
-  openGraph: { title, description, type: "website", siteName: site.name, locale: "en_IN", images: [{ url: "/brand/og.png", width: 1200, height: 630, alt: "HUX: everything you need is already on campus" }] },
-  twitter: { card: "summary_large_image", title, description, images: ["/brand/og.png"] },
-  alternates: { canonical: "/" },
+  openGraph: { title, description, type: "website", siteName: site.name, locale: "en_IN", images: [{ url: withBase("/brand/og.png"), width: 1200, height: 630, alt: "HUX: everything you need is already on campus" }] },
+  twitter: { card: "summary_large_image", title, description, images: [withBase("/brand/og.png")] },
+  alternates: { canonical: withBase("/") },
 };
 
 export const viewport: Viewport = {

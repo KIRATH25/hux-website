@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site } from "@/config/site";
+import { site, withBase } from "@/config/site";
 import { Confirm } from "@/components/Confirm";
 import { PageHeader } from "@/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "Terms",
   description: "The simple rules for using HUX, the campus exchange for GLA University students.",
-  alternates: { canonical: "/terms/" },
+  alternates: { canonical: withBase("/terms/") },
 };
 
 export default function TermsPage() {

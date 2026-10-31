@@ -14,4 +14,4 @@ npm run dev      # http://localhost:3100
 npm run build    # static site in out/
 ```
 
-Deploying: see [DEPLOY.md](DEPLOY.md).
+**Live:** https://kirath25.github.io/hux-website/ (published by GitHub Pages on every push, see [DEPLOY.md](DEPLOY.md)).

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site } from "@/config/site";
+import { site, withBase } from "@/config/site";
 import { Confirm } from "@/components/Confirm";
 import { PageHeader } from "@/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "Privacy policy",
   description: "What the HUX app stores about you, who can see it, why, how long it is kept and how to delete it.",
-  alternates: { canonical: "/privacy/" },
+  alternates: { canonical: withBase("/privacy/") },
 };
 
 /**

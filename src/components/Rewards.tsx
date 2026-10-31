@@ -1,4 +1,4 @@
-import { site } from "@/config/site";
+import { site, withBase } from "@/config/site";
 import { HandNote, Sparkle } from "./HandDrawn";
 
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
@@ -80,7 +80,7 @@ export function Rewards() {
                   <figure className="overflow-hidden rounded-[24px] border border-line bg-paper shadow-warm-sm">
                     <div className="relative aspect-[4/5] bg-ivory-2">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/merch/${m.images[0]}`} alt={m.alt} width={800} height={1000} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src={withBase(`/merch/${m.images[0]}`)} alt={m.alt} width={800} height={1000} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
                       <span className="absolute left-3 top-3 rotate-[-3deg] rounded-full bg-charcoal px-2.5 py-1 text-[12px] font-semibold text-sunflower">
                         Premium: {site.pricing.premiumMerchDiscountPct}% off
                       </span>
