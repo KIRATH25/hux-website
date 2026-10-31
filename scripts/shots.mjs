@@ -86,7 +86,8 @@ try {
       // itself is checked straight from the server the link points to.
       await dl.cancel().catch(() => {});
       const href = await btn.getAttribute('href');
-      const size = await page.evaluate(async (u) => Number((await fetch(u, { method: 'HEAD' })).headers.get('content-length')), href);
+      // checked from here (not the page): on the live site the file is on github.com, which a page may not query
+      const size = Number((await fetch(new URL(href, page.url()), { method: 'HEAD', redirect: 'follow' })).headers.get('content-length'));
       note(size > 50e6, 'Android: the link serves the real APK', `${(size / 1e6).toFixed(1)} MB at ${href}`);
       const sheet = page.getByRole('dialog', { name: 'Download started' });
       await sheet.waitFor({ timeout: 3000 }).catch(() => {});
