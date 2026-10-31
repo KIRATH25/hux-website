@@ -162,6 +162,16 @@ export const site = {
   /** Real student feedback only (name, course, quote). Shown when showTestimonials is true. */
   testimonials: [] as { name: string; course: string; quote: string }[],
 
+  /**
+   * Supabase, for the /account/ page only (it finishes e-mail links: confirmations and password resets).
+   * This is the PUBLIC key the app already ships with (row-level security protects the data). Never put a secret or
+   * service key here.
+   */
+  supabase: {
+    url: "https://hbsptxiapzvhjrqnozwz.supabase.co",
+    anonKey: "sb_publishable_tcXYDk9oHL-99XvlIGCvNQ_I0uLznyp",
+  },
+
   /** No delete button in the app (not wanted for now): /delete-account offers an e-mail request instead. */
   inAppAccountDeletion: false,
 
