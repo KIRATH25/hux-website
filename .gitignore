@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local preview copy of the APK (98 MB, never committed or deployed)
+/public/HUX.apk
+*.apk
+
+# screenshots made by scripts/shots.mjs
+/qa/
