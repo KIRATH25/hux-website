@@ -34,7 +34,11 @@ const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH 
 const errors = [];
 const watch = (page, label) => {
   page.on('pageerror', (e) => errors.push(`${label}: ${e.message}`));
-  page.on('console', (m) => m.type() === 'error' && errors.push(`${label} console: ${m.text().slice(0, 200)}`));
+  page.on('console', (m) => {
+    if (m.type() !== 'error') return;
+    if (/does-not-exist/.test(label) && /status of 404/.test(m.text())) return; // the 404 page is meant to answer 404
+    errors.push(`${label} console: ${m.text().slice(0, 200)}`);
+  });
 };
 const settle = async (page) => {
   await page.waitForLoadState('networkidle').catch(() => {});

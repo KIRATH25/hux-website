@@ -135,6 +135,21 @@ export const site = {
     guide: "" as string, // not given: the line is hidden
   },
 
+  /**
+   * The five phones in "Designed to feel simple" (centre = the middle one). Real screens first; swap in
+   * "home", "listing", "pay", "chat", "points" as soon as their screenshots exist.
+   */
+  showcase: [
+    { screen: "signup", caption: "sign up with your GLA email" },
+    { screen: "onboarding2", caption: "find what you need" },
+    { screen: "onboarding1", caption: "lend, rent or swap" },
+    { screen: "onboarding3", caption: "ask in plain words" },
+    { screen: "points", caption: "earn coins on every deal" },
+  ] as { screen: "onboarding1" | "onboarding2" | "onboarding3" | "signup" | "home" | "listing" | "pay" | "chat" | "handover" | "points"; caption: string }[],
+
+  /** Real student feedback only (name, course, quote). Shown when showTestimonials is true. */
+  testimonials: [] as { name: string; course: string; quote: string }[],
+
   /** No delete button in the app (not wanted for now): /delete-account offers an e-mail request instead. */
   inAppAccountDeletion: false,
 

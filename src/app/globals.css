@@ -265,3 +265,64 @@ body::before {
 html {
   scroll-behavior: smooth;
 }
+
+/* long-form pages (privacy, terms, delete account) */
+@layer components {
+  .prose-hux {
+    color: var(--color-ink-2);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .prose-hux h2 {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    line-height: 1.1;
+    color: var(--color-charcoal);
+    margin-top: 56px;
+    margin-bottom: 14px;
+  }
+  .prose-hux h3 {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-charcoal);
+    margin-top: 28px;
+    margin-bottom: 8px;
+  }
+  .prose-hux p,
+  .prose-hux ul,
+  .prose-hux ol {
+    margin-top: 12px;
+    max-width: 68ch;
+  }
+  .prose-hux ul {
+    list-style: disc;
+    padding-left: 22px;
+  }
+  .prose-hux ol {
+    list-style: decimal;
+    padding-left: 22px;
+  }
+  .prose-hux li {
+    margin-top: 6px;
+  }
+  .prose-hux a {
+    color: var(--color-charcoal);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--color-sunflower);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+  }
+  .prose-hux strong {
+    color: var(--color-charcoal);
+    font-weight: 600;
+  }
+  @media (min-width: 1024px) {
+    .prose-hux {
+      font-size: 17px;
+    }
+    .prose-hux h2 {
+      font-size: 40px;
+    }
+  }
+}

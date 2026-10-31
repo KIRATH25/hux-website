@@ -3,7 +3,7 @@
 // Chat, Points) have to come from a phone.
 //   1. in E:\hux:  npm run web          (Expo web on http://localhost:8081)
 //   2. here:       node scripts/capture-app.mjs
-//   3. here:       npm run assets       (-> public/screens/*.webp, 1080x2400)
+//   3. here:       npm run assets       (-> public/screens/*.webp, 720x1600)
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,7 +11,7 @@ import { chromium } from 'playwright-core';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const base = (process.argv[2] || 'http://localhost:8081').replace(/\/$/, '');
-const out = path.join(root, 'public', 'screens', 'src');
+const out = path.join(root, 'assets', 'screens');
 fs.mkdirSync(out, { recursive: true });
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });

@@ -1,7 +1,7 @@
 // Turns the app repo's design files into web-ready assets (run once, and again when a source file changes):
 //   - merch photos: E:\hux\design\merch\*.png (2000x2500)  -> public/merch/*.webp (800x1000, q80)
 //   - logo:         E:\hux\design\logo\*.svg                -> public/brand/ + src/app/icon.svg + src/app/apple-icon.png
-//   - screenshots:  public/screens/src/*.png|jpg (from your phone) -> public/screens/*.webp (1080x2400, q82)
+//   - screenshots:  assets/screens/*.png|jpg (from your phone, 1080x2400) -> public/screens/*.webp (720x1600, q82)
 // Source repo: HUX_REPO, or ../hux next to this project. Existing outputs are skipped unless the source is newer.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -55,13 +55,14 @@ if (fs.existsSync(icon)) {
 }
 
 // screenshots from the phone
-const shotsSrc = path.join(root, 'public', 'screens', 'src');
+const shotsSrc = path.join(root, 'assets', 'screens');
 const shotsOut = path.join(root, 'public', 'screens');
 if (fs.existsSync(shotsSrc)) {
   for (const f of fs.readdirSync(shotsSrc).filter((n) => /\.(png|jpe?g)$/i.test(n))) {
     const out = path.join(shotsOut, f.replace(/\.(png|jpe?g)$/i, '.webp'));
     if (!newer(path.join(shotsSrc, f), out)) continue;
-    await sharp(path.join(shotsSrc, f)).resize(1080, 2400, { fit: 'cover', position: 'top' }).webp({ quality: 82 }).toFile(out);
+    // served at 720x1600: phones on the site are at most ~260px wide (520px on a 2x screen), so 1080x2400 only adds weight
+    await sharp(path.join(shotsSrc, f)).resize(720, 1600, { fit: 'cover', position: 'top' }).webp({ quality: 82 }).toFile(out);
     made += 1;
   }
 }
