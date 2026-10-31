@@ -1,4 +1,4 @@
-// Captures the app's SIGNED-IN screens (Pay seller, Handover code, Coins) from its web version, with a test session and
+// Captures the app's SIGNED-IN screens (Pay seller, Handover code, Coins, Payments: UPI ID) from its web version, with a test session and
 // neutral sample data (like the app's own scripts/web-smoke.mjs): no real account, no real person, nothing sent to Supabase.
 // The screens themselves are the real app; only the numbers are samples (a Rs 150 calculator rental, a masked UPI id,
 // a 4-digit code, a small coin balance).
@@ -44,7 +44,8 @@ const booking = (pay) => ({
   payment: { method: 'upi', status: pay, utr: null, proof_path: null, proof_submitted_at: null, dispute_reason: null, confirmed_at: pay === 'confirmed' ? '2026-10-31T10:20:00Z' : null },
 });
 
-async function capture({ file, route, pay, scrollTo }) {
+async function capture({ file, route, pay, scrollTo, upi = null, scrollText }) {
+  const me = { ...priv, upi_id: upi };
   const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
   const ctx = await browser.newContext({
     viewport: { width: 360, height: 800 },
@@ -101,7 +102,7 @@ async function capture({ file, route, pay, scrollTo }) {
         { id: 'c5', delta: 5, reason: 'deal_sell', ref_type: 'booking', ref_id: 'b3', created_at: '2026-10-18T15:00:00Z' },
       ]);
     if (u.pathname.startsWith('/rest/v1/profiles')) return json(r, single ? profile : [profile]);
-    if (u.pathname.startsWith('/rest/v1/profile_private')) return json(r, single ? priv : [priv]);
+    if (u.pathname.startsWith('/rest/v1/profile_private')) return json(r, single ? me : [me]);
     if (u.pathname.startsWith('/rest/v1/')) return json(r, single ? null : []);
     return json(r, {});
   });
@@ -119,6 +120,10 @@ async function capture({ file, route, pay, scrollTo }) {
     });
     await page.waitForTimeout(600);
   }
+  if (scrollText) {
+    await page.getByText(scrollText, { exact: false }).first().evaluate((el) => el.scrollIntoView({ block: 'start' })).catch(() => {});
+    await page.waitForTimeout(600);
+  }
   await page.screenshot({ path: path.join(out, file) });
   console.log(`${file}  <- ${new URL(page.url()).pathname}${errors.length ? '  errors: ' + errors.slice(0, 2).join(' | ') : ''}`);
   await browser.close();
@@ -127,3 +132,4 @@ async function capture({ file, route, pay, scrollTo }) {
 await capture({ file: 'pay.png', route: `/booking/${BOOKING_ID}`, pay: 'awaiting_payment', scrollTo: 'PAYMENT' });
 await capture({ file: 'handover.png', route: `/booking/${BOOKING_ID}`, pay: 'confirmed', scrollTo: 'PAYMENT' });
 await capture({ file: 'points.png', route: '/coins', pay: 'awaiting_payment' });
+await capture({ file: 'upi.png', route: '/edit-profile', pay: 'awaiting_payment', upi: 'yourname@okaxis', scrollText: 'Interests' });

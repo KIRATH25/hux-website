@@ -27,6 +27,18 @@ export function FAQ() {
     },
     { q: "Does HUX hold my money?", a: "No. The buyer pays the seller directly by UPI. HUX only helps you check the payment and the handover." },
     {
+      q: "How do I get paid?",
+      a: (
+        <>
+          Add your UPI ID in the app: Profile, then Edit profile, then &ldquo;Payments: my UPI ID&rdquo;. Buyers pay it directly. The{" "}
+          <Link href="/upi/" className={linkCls}>
+            Get paid with UPI
+          </Link>{" "}
+          page shows each step.
+        </>
+      ),
+    },
+    {
       q: "What if something goes wrong?",
       a: 'If a payment does not arrive, tap "Not received". You can also report a user or a listing in the app. Our admins review every report.',
     },

@@ -52,11 +52,11 @@ export const site = {
      */
     url: process.env.NEXT_PUBLIC_APK_URL || withBase("/HUX.apk"),
     fileName: "HUX.apk",
-    version: "1.0.0", // apps/mobile/app.json
-    sizeMB: 98, // 98,299,884 bytes (EAS build fc53ba0b, 31 Oct 2026)
+    version: "1.0.1", // apps/mobile/app.json
+    sizeMB: 98, // 98,300,083 bytes (EAS build 5b44bbf5, 1 Nov 2026; GitHub release v1.0.1)
     minAndroid: "6.0", // minSdkVersion 23
-    updated: "31 Oct 2026",
-    sha256: "77cbf692ffef2cca866bccfc94ecf5718903e5efb9b9b0d1949e49b90dee0f10",
+    updated: "1 Nov 2026",
+    sha256: "9eb050c211a046e67005ae0536ed783b8809c9988f64ce1407c6bba9f638347a",
     freeSpaceMB: 200,
   },
 
@@ -119,7 +119,7 @@ export const site = {
   ] satisfies MerchItem[],
 
   // Real screenshots of the app (1080x2400 source, served at 720x1600). Signed-out screens: scripts/capture-app.mjs.
-  // Pay seller, Handover code and Coins: scripts/capture-signed-in.mjs (the real app with a test session and sample numbers).
+  // Pay seller, Handover code, Coins and Payments (UPI ID): scripts/capture-signed-in.mjs (the real app with a test session and sample numbers).
   // Screens still without a src show a neutral "Screenshot: <label>" placeholder.
   screens: {
     onboarding1: { src: withBase("/screens/onboarding-1.webp"), label: "Have something useful?", alt: "HUX welcome screen: lend gear, swap skills, only for GLA students" },
@@ -132,6 +132,7 @@ export const site = {
     chat: { src: "", label: "Chat", alt: "A chat between buyer and seller in HUX" }, // TODO
     handover: { src: withBase("/screens/handover.webp"), label: "Handover code", alt: "HUX after payment: the meeting point and the 4-digit handover code" },
     points: { src: withBase("/screens/points.webp"), label: "Coins", alt: "HUX coins screen: balance, how to earn and your referral code" },
+    upi: { src: withBase("/screens/upi.webp"), label: "Payments: my UPI ID", alt: "HUX Edit profile screen: the Payments: my UPI ID box, the Send myself ₹1 to test button and Save" },
   } satisfies Record<string, Screen>,
 
   contact: {
@@ -184,7 +185,7 @@ export const site = {
   inAppBrowsers: ["Instagram", "FBAN", "FBAV", "FB_IAB", "Snapchat", "LinkedInApp"],
 } as const;
 
-/** "Free · v1.0.0 · 98 MB · Android 6.0+" */
+/** "Free · v1.0.1 · 98 MB · Android 6.0+" */
 export const apkMetaLine = () => `Free · v${site.apk.version} · ${site.apk.sizeMB} MB · Android ${site.apk.minAndroid}+`;
 
 export const isSet = (value: string | undefined | null) => typeof value === "string" && value.trim() !== "";

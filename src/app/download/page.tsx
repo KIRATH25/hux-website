@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { site, withBase } from "@/config/site";
 import { Accordion } from "@/components/Accordion";
 import { DownloadButton } from "@/components/DownloadButton";
@@ -82,6 +83,13 @@ export default function DownloadPage() {
         <div className="mt-10" data-reveal style={{ ["--d" as string]: "100ms" }}>
           <InstallSteps />
         </div>
+        <p className="t-body mt-10 text-ink-2" data-reveal>
+          Installed and approved? Add your UPI ID next, so buyers can pay you:{" "}
+          <Link href="/upi/" className="font-semibold text-charcoal underline decoration-sunflower decoration-[3px] underline-offset-4">
+            Get paid with UPI
+          </Link>
+          .
+        </p>
       </section>
 
       <section aria-labelledby="trouble-title" className="container-hux grid gap-10 pb-24 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">

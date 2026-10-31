@@ -9,7 +9,7 @@ type Props = {
   size?: "lg" | "compact";
   /** on a charcoal band the button turns ivory so it stays visible */
   onDark?: boolean;
-  /** the "Free · v1.0.0 · 98 MB · Android 6.0+" line under the button */
+  /** the "Free · v1.0.1 · 98 MB · Android 6.0+" line under the button */
   showMeta?: boolean;
   className?: string;
 };
