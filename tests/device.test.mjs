@@ -27,9 +27,9 @@ test('Android inside Instagram, Facebook, Snapchat, LinkedIn or a plain WebView 
   for (const k of ['instagram', 'facebook', 'snapchat', 'linkedin', 'webview']) assert.equal(detectDevice(UA[k]), 'android-inapp', k);
 });
 
-test('iPhone and iPad never get the APK, even in Instagram or iPad desktop mode', () => {
+test('iPhone and iPad never get the APK, even in Instagram or iPad desktop mode; inside Instagram they are told to open Safari', () => {
   assert.equal(detectDevice(UA.iphone), 'ios');
-  assert.equal(detectDevice(UA.iphoneInstagram), 'ios');
+  assert.equal(detectDevice(UA.iphoneInstagram), 'ios-inapp');
   assert.equal(detectDevice(UA.ipadDesktopMode, { platform: 'MacIntel', maxTouchPoints: 5 }), 'ios');
 });
 

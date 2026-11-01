@@ -58,7 +58,7 @@ export default function DeleteAccountPage() {
           <li>Your profile: display name, photo, bio, interests, Day Scholar or Hosteler.</li>
           <li>Your college ID details: name on the ID, roll number and the ID photo.</li>
           <li>Your UPI ID, listings and listing photos.</li>
-          <li>Your chats and chat photos, saved listings, notifications and push notification tokens.</li>
+          <li>Your chats and chat photos, saved listings, notifications, push notification tokens and iPhone notification subscriptions.</li>
           <li>Your coins, referral code and merch orders.</li>
         </ul>
 

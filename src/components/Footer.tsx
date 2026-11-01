@@ -8,7 +8,8 @@ const COLUMNS = [
     links: [
       { href: "/#features", label: "Features" },
       { href: "/#pricing", label: "Pricing" },
-      { href: "/download/", label: "Download" },
+      { href: "/download/", label: "Download (Android)" },
+      { href: "/iphone/", label: "HUX on iPhone" },
     ],
   },
   {

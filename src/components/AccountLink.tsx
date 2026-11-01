@@ -83,6 +83,7 @@ function Confirmed({ what }: { what: string }) {
       <p className="mt-4 text-[16px] leading-[1.6] text-ink-2">
         Now open <b className="text-charcoal">HUX</b> on your phone and sign in with your GLA e-mail and password. Next, the app asks for a photo of your college ID.
       </p>
+      {/* on an iPhone this button is "Open HUX on iPhone" (the Home Screen web app); on Android the APK */}
       <p className="mt-6 text-[14px] text-muted">No app yet?</p>
       <DownloadButton className="mt-3" showMeta />
     </>

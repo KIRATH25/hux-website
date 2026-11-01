@@ -71,6 +71,12 @@ export default function DownloadPage() {
             <QRCodeCard />
           </div>
         </div>
+        <p className="mt-4 rounded-2xl bg-ivory-2 px-5 py-4 text-[15px] leading-[1.6] text-ink-2">
+          On an iPhone? HUX works there too, without the App Store: open it in Safari and add it to your Home Screen.{" "}
+          <Link href="/iphone/" className="font-semibold text-charcoal underline decoration-sunflower decoration-[3px] underline-offset-4">
+            HUX on iPhone
+          </Link>
+        </p>
       </section>
 
       <section id="install" aria-labelledby="install-title" className="container-hux scroll-mt-24 py-16 lg:py-24">

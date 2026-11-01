@@ -1,15 +1,16 @@
 "use client";
 
-import { Check, Copy, EllipsisVertical } from "lucide-react";
+import { ArrowUpRight, Check, Compass, Copy, EllipsisVertical } from "lucide-react";
+import Link from "next/link";
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { apkMetaLine, site } from "@/config/site";
 import { useBrowserValue } from "@/lib/client";
 import { detectDevice, type Device } from "@/lib/device";
 import { Dialog } from "./Dialog";
 import { InstallSteps } from "./InstallSteps";
+import { IphoneSteps } from "./IphoneSteps";
 
-
-type Sheet = "started" | "inapp" | "ios" | "desktop" | "steps" | null;
+type Sheet = "started" | "inapp" | "ios" | "ios-inapp" | "desktop" | "steps" | null;
 
 type Ctx = {
   /** null until the page has loaded in the browser (the server never guesses) */
@@ -29,7 +30,8 @@ export function useDownload() {
 
 /**
  * Holds what the download buttons need (the device, the QR code) and renders the four sheets once for the whole site:
- * "Download started" (Android), "Open in Chrome" (in-app browsers), "coming soon" (iPhone) and the QR modal (desktop).
+ * "Download started" (Android), "Open in Chrome" (in-app browsers), the iPhone install steps, "Open in Safari" (in-app
+ * browsers on iPhone) and the QR modal (desktop).
  */
 export function DownloadProvider({ qr, downloadUrl, children }: { qr: string; downloadUrl: string; children: ReactNode }) {
   const device = useBrowserValue<Device | null>(
@@ -94,10 +96,46 @@ export function DownloadProvider({ qr, downloadUrl, children }: { qr: string; do
           <CopyLink />
         </Dialog>
 
-        <Dialog open={sheet === "ios"} onClose={close} title="iPhone version coming soon">
+        <Dialog open={sheet === "ios"} onClose={close} title="Install HUX on your iPhone">
           <p className="text-[15px] leading-[1.55] text-ink-2">
-            HUX is an Android app for now, and the Android file cannot run on an iPhone or iPad. Have an Android phone? Open this page on it.
+            No App Store needed: HUX runs in Safari and goes on your Home Screen like an app. Same account and same deals as the Android app. Open HUX, then:
           </p>
+          <div className="mt-5">
+            <IphoneSteps compact />
+          </div>
+          <a
+            href={site.ios.url}
+            data-autofocus
+            className="mt-6 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-charcoal px-6 text-[16px] font-semibold text-ivory transition-transform active:scale-[0.98]"
+          >
+            Open HUX on iPhone <ArrowUpRight size={19} strokeWidth={1.75} />
+          </a>
+          <p className="mt-4 text-center text-[14px] text-ink-2">
+            <Link href="/iphone/" onClick={close} className="font-semibold text-charcoal underline decoration-sunflower decoration-[3px] underline-offset-4">
+              The full iPhone guide
+            </Link>{" "}
+            (notifications, paying with UPI, help)
+          </p>
+        </Dialog>
+
+        <Dialog open={sheet === "ios-inapp"} onClose={close} title="Open this page in Safari">
+          <p className="text-[15px] leading-[1.55] text-ink-2">
+            Apps like Instagram, Facebook and Snapchat open links in their own browser, which cannot add HUX to your Home Screen. Open this page in Safari first.
+          </p>
+          <ol className="mt-5 space-y-3 text-[15px] text-charcoal">
+            <li className="flex items-center gap-3">
+              <span className="grid size-10 place-items-center rounded-full bg-sunflower">
+                <EllipsisVertical size={20} strokeWidth={1.75} className="rotate-90" />
+              </span>
+              Tap ••• (top or bottom right)
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="grid size-10 place-items-center rounded-full bg-sunflower">
+                <Compass size={19} strokeWidth={1.75} />
+              </span>
+              Choose &ldquo;Open in Safari&rdquo; (or &ldquo;Open in external browser&rdquo;)
+            </li>
+          </ol>
           <CopyLink />
         </Dialog>
 
@@ -110,6 +148,13 @@ export function DownloadProvider({ qr, downloadUrl, children }: { qr: string; do
               Download the APK to this computer instead
             </a>
             <span className="mt-1 block text-[12px] text-muted">{apkMetaLine()}</span>
+          </p>
+          <p className="mt-4 border-t border-line pt-4 text-center text-[14px] text-ink-2">
+            On an iPhone? Open{" "}
+            <Link href="/iphone/" onClick={close} className="font-semibold text-charcoal underline decoration-sunflower decoration-[3px] underline-offset-4">
+              the iPhone guide
+            </Link>
+            .
           </p>
         </Dialog>
       </DownloadCtx.Provider>

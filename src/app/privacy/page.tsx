@@ -116,11 +116,17 @@ export default function PrivacyPage() {
       who: "Nobody else; it is used only to send the notification. At most 5 phones per account.",
       kept: "Removed when you sign out of that phone, or when your account is deleted.",
     },
+    {
+      what: "iPhone notification subscription (only if you turn notifications on in HUX on iPhone)",
+      why: "The address Apple gives your iPhone for HUX notifications, with its encryption keys, so only your iPhone can read them.",
+      who: "Nobody else; it is used only to send the notification, which has fixed words only. At most 5 per account.",
+      kept: "Removed when you sign out on that iPhone, turn notifications off, remove HUX from the Home Screen, or delete your account.",
+    },
   ];
 
   return (
     <main id="main">
-      <PageHeader eyebrow="Legal" title="Privacy policy" underline="Privacy" updated="31 October 2026" />
+      <PageHeader eyebrow="Legal" title="Privacy policy" underline="Privacy" updated="1 November 2026" />
       <article className="container-hux prose-hux pb-24">
         <p>
           This policy explains what the HUX app (Human Utility eXchange, by {site.brand}) stores about you, who can see it, why, how long it is kept and how you can
@@ -172,12 +178,24 @@ export default function PrivacyPage() {
             <strong>Brevo</strong>: sends HUX e-mails (for example your welcome e-mail and your handover code).
           </li>
           <li>
-            <strong>Expo and Google Firebase Cloud Messaging</strong>: deliver push notifications to your phone.
+            <strong>Expo and Google Firebase Cloud Messaging</strong>: deliver push notifications to your Android phone.
+          </li>
+          <li>
+            <strong>Apple Push Notification service</strong>: delivers notifications to HUX on iPhone (they are encrypted, so Apple cannot read them).
+          </li>
+          <li>
+            <strong>GitHub Pages</strong>: hosts this website and HUX for iPhone (the app&apos;s files only; your data stays in Supabase).
           </li>
         </ul>
 
         <h2>This website</h2>
         <p>This website does not use cookies, analytics or trackers. The download comes from GitHub, which stores the app file for us.</p>
+
+        <h2>HUX on iPhone</h2>
+        <p>
+          HUX on iPhone is the same app running in Safari. It keeps your sign-in and a few settings (such as a closed banner or your preferred UPI app) in the
+          storage Safari gives HUX on your iPhone. It does not use cookies, analytics or trackers. Removing HUX from your Home Screen clears that storage.
+        </p>
 
         <h2>Your choices</h2>
         <ul>

@@ -60,7 +60,15 @@ export const site = {
     freeSpaceMB: 200,
   },
 
-  ios: { status: "coming-soon" as const },
+  /**
+   * The iPhone version: the same HUX app (same account, same deals with Android users), opened in Safari and added to
+   * the Home Screen. No App Store. Built and published from the app repo (scripts/build-web.mjs + deploy-web.mjs).
+   */
+  ios: {
+    status: "web-app" as const,
+    url: "https://kirath25.github.io/hux-app/",
+    notificationsMinIos: "16.4",
+  },
 
   pricing: {
     /** free deals every calendar month (completed deals, as buyer or seller; the count resets on the 1st) */
@@ -133,6 +141,10 @@ export const site = {
     handover: { src: withBase("/screens/handover.webp"), label: "Handover code", alt: "HUX after payment: the meeting point and the 4-digit handover code" },
     points: { src: withBase("/screens/points.webp"), label: "Coins", alt: "HUX coins screen: balance, how to earn and your referral code" },
     upi: { src: withBase("/screens/upi.webp"), label: "Payments: my UPI ID", alt: "HUX Edit profile screen: the Payments: my UPI ID box, the Send myself ₹1 to test button and Save" },
+    // the iPhone version (the web app on an iPhone-sized screen): scripts/capture-iphone.mjs
+    iphoneInstall: { src: withBase("/screens/iphone-install.webp"), label: "Install on iPhone", alt: "HUX on an iPhone in Safari with the banner: Install HUX on your iPhone, tap Share, then Add to Home Screen" },
+    iphonePay: { src: withBase("/screens/iphone-pay.webp"), label: "Pay with (iPhone)", alt: "HUX on iPhone: the Pay with sheet listing Google Pay, PhonePe and Paytm, with Copy UPI ID and Copy amount" },
+    iphoneNotify: { src: withBase("/screens/iphone-notify.webp"), label: "Notifications (iPhone)", alt: "HUX on iPhone: the Notifications screen with the Turn on notifications button" },
   } satisfies Record<string, Screen>,
 
   contact: {

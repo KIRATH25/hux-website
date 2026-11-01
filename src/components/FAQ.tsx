@@ -42,7 +42,19 @@ export function FAQ() {
       q: "What if something goes wrong?",
       a: 'If a payment does not arrive, tap "Not received". You can also report a user or a listing in the app. Our admins review every report.',
     },
-    { q: "Is there an iPhone app?", a: "Coming soon. For now HUX is Android only." },
+    {
+      q: "Is there an iPhone app?",
+      a: (
+        <>
+          Yes, without the App Store: open HUX in Safari and add it to your Home Screen (Share, then &ldquo;Add to Home Screen&rdquo;). Same account and same deals as Android.
+          The{" "}
+          <Link href="/iphone/" className={linkCls}>
+            iPhone guide
+          </Link>{" "}
+          shows each step, notifications and paying by UPI.
+        </>
+      ),
+    },
     {
       q: "How do I delete my account?",
       a: (

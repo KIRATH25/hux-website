@@ -116,21 +116,42 @@ try {
       await page.screenshot({ path: path.join(out, 'instagram-open-in-chrome.png') });
       await ctx.close();
     }
-    // 4. iPhone
+    // 4. iPhone: never the APK; "Open HUX on iPhone" goes to the web app; the install steps; Instagram -> "Open in Safari"
     {
+      const IOS_APP = 'https://kirath25.github.io/hux-app/';
       const ctx = await browser.newContext(mobile(UA.iphone));
       const page = await ctx.newPage();
       watch(page, 'iphone');
       await page.goto(base + '/', { waitUntil: 'networkidle' });
       await page.waitForTimeout(500);
       const apkLinks = await page.locator(`a[href$=".apk"]`).count();
-      const soon = await page.getByRole('button', { name: /iPhone version coming soon/ }).count();
-      note(apkLinks === 0 && soon > 0, 'iPhone: no APK link anywhere, "iPhone version coming soon" shown', `${apkLinks} apk links, ${soon} buttons`);
+      const open = page.getByRole('link', { name: /Open HUX on iPhone/ });
+      const hrefs = await open.evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+      note(apkLinks === 0 && hrefs.length > 0 && hrefs.every((h) => h === IOS_APP), 'iPhone: no APK link anywhere; "Open HUX on iPhone" opens the web app', `${apkLinks} apk links, ${hrefs.length} buttons -> ${hrefs[0]}`);
       await page.screenshot({ path: path.join(out, 'iphone-hero.png') });
-      await page.getByRole('button', { name: /iPhone version coming soon/ }).first().click();
-      await page.waitForTimeout(500);
+      await page.getByRole('button', { name: /How to install/ }).first().click();
+      const steps = page.getByRole('dialog', { name: /Install HUX on your iPhone/ });
+      await steps.waitFor({ timeout: 3000 }).catch(() => {});
+      const stepsText = (await steps.isVisible()) ? await steps.innerText() : '';
+      note(/Tap Share/.test(stepsText) && /Add to Home Screen/.test(stepsText), 'iPhone: "How to install" shows Share, then Add to Home Screen');
       await page.screenshot({ path: path.join(out, 'iphone-sheet.png') });
+      await page.keyboard.press('Escape');
+      await page.goto(base + '/iphone/', { waitUntil: 'networkidle' });
+      await page.waitForTimeout(500);
+      const guide = await page.locator('main').innerText();
+      note(/Install in four steps/.test(guide) && /Turn on notifications once/.test(guide) && /Pick your UPI app/.test(guide) && /side by side/.test(guide), 'iPhone guide page: install, notifications, UPI, differences, help');
       await ctx.close();
+
+      const ig = await browser.newContext(mobile('Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 352.0.0'));
+      const igPage = await ig.newPage();
+      watch(igPage, 'iphone-instagram');
+      await igPage.goto(base + '/', { waitUntil: 'networkidle' });
+      await igPage.waitForTimeout(500);
+      await igPage.getByRole('link', { name: /Open HUX on iPhone/ }).first().click();
+      const safari = igPage.getByRole('dialog', { name: /Open this page in Safari/ });
+      await safari.waitFor({ timeout: 3000 }).catch(() => {});
+      note((await safari.isVisible()) && igPage.url().startsWith(base), 'iPhone inside Instagram: "Open this page in Safari" (stays here)');
+      await ig.close();
     }
     // 5. desktop: QR modal, and the QR really decodes to /download
     {
