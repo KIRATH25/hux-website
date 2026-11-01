@@ -90,7 +90,23 @@ const FAQ = [
     q: "Is HUX in a browser as safe as the app?",
     a: "Yes. It is the same HUX: every rule (who can see your UPI ID, names hidden until payment, the 4-digit handover code, admin ID checks) is enforced by HUX's server, not by your phone. The connection is always encrypted (HTTPS). HUX never asks for your UPI PIN or an OTP.",
   },
+  {
+    q: "HUX says “You are offline” but my internet works",
+    a: "That was a bug in an earlier version, fixed on 1 November 2026. Close HUX completely (swipe it up from the app switcher) and open it again to get the fixed version. If the bar stays, check that Wi-Fi or mobile data is on and that Low Data Mode or a VPN is not blocking HUX, then try again.",
+  },
+  {
+    q: "Something looks wrong, old or stuck",
+    a: "Close HUX completely and open it again: that loads the newest version. Still wrong? Pull down on the screen to refresh it. If that does not help, remove HUX from the Home Screen and add it again from Safari (you only need to sign in and turn notifications on again).",
+  },
+  {
+    q: "I can't sign in on my iPhone",
+    a: "Use the same GLA e-mail and password as on Android. Forgot it? Tap “Forgot password?” on the sign-in screen; the e-mail link opens our website, where you choose a new password. New accounts must confirm their e-mail first.",
+  },
   { q: "How do I update?", a: "You do not need to. HUX updates itself. To get a new version straight away, close HUX completely (swipe it up) and open it again." },
+  {
+    q: "How do I report a problem?",
+    a: `Email ${site.contact.email} with what you tapped, what you saw (a screenshot helps) and your iPhone model and iOS version (Settings → General → About). Never send your password, UPI PIN or OTP.`,
+  },
   { q: "How do I remove HUX?", a: "Press and hold the HUX icon, then “Remove App” (or “Delete Bookmark”). This signs you out on that iPhone and stops its notifications." },
   { q: "Can I trade with Android users?", a: "Yes. Everyone is in the same HUX: iPhone and Android users see the same listings and chat, book and pay each other the same way." },
 ];
