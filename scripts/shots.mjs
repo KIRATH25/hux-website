@@ -142,6 +142,14 @@ try {
       note(/Install in four steps/.test(guide) && /Turn on notifications once/.test(guide) && /Pick your UPI app/.test(guide) && /side by side/.test(guide), 'iPhone guide page: install, notifications, UPI, differences, help');
       await ctx.close();
 
+      // Android on the iPhone page: straight to the APK download page
+      const an = await browser.newContext(mobile(UA.android));
+      const anPage = await an.newPage();
+      await anPage.goto(base + '/iphone/', { waitUntil: 'networkidle' });
+      await anPage.waitForTimeout(1500);
+      note(new URL(anPage.url()).pathname.endsWith('/download/'), 'Android on /iphone/: sent to the APK download page', new URL(anPage.url()).pathname);
+      await an.close();
+
       const ig = await browser.newContext(mobile('Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 352.0.0'));
       const igPage = await ig.newPage();
       watch(igPage, 'iphone-instagram');

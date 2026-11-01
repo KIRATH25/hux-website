@@ -5,6 +5,7 @@ import { ArrowUpRight, BellRing, Check, IndianRupee, KeyRound, Lock, RefreshCw, 
 import { site, withBase } from "@/config/site";
 import { qrSvg } from "@/lib/qr";
 import { Accordion } from "@/components/Accordion";
+import { AndroidToDownload } from "@/components/AndroidToDownload";
 import { HandNote } from "@/components/HandDrawn";
 import { IphoneSteps } from "@/components/IphoneSteps";
 import { PageHeader } from "@/components/PageHeader";
@@ -69,6 +70,14 @@ const DIFFERENCES: [string, string, string][] = [
 
 const FAQ = [
   {
+    q: "Safari only shows me the install steps",
+    a: "That is on purpose: HUX on iPhone runs only from its Home Screen icon (that is what makes notifications and a full-screen app possible). Add it to your Home Screen, then always open HUX from the icon, not from a Safari tab.",
+  },
+  {
+    q: "I opened the link on Android or on a computer",
+    a: "HUX on Android is the app: it shows a button to download it (the web version does not open there). On a computer you see a QR code: scan it with your phone's camera.",
+  },
+  {
     q: "I can't find “Add to Home Screen”",
     a: "Check that you are in Safari, not inside Instagram, WhatsApp or Gmail (there, tap ••• or the compass and choose “Open in Safari”). In the Share list, scroll down. Still missing? Scroll to the end, tap “Edit Actions…” and add it.",
   },
@@ -118,6 +127,7 @@ export default async function IphonePage() {
 
   return (
     <main id="main">
+      <AndroidToDownload />
       <PageHeader
         eyebrow="iPhone"
         title="HUX on your iPhone"
@@ -146,7 +156,7 @@ export default async function IphonePage() {
                 </div>
               ))}
             </dl>
-            <div className="mt-8 hidden items-center gap-5 lg:flex">
+            <div className="mt-8 hidden items-center gap-5 md:flex">
               <figure className="inline-flex flex-col items-center gap-2 rounded-[20px] border border-line bg-ivory p-3">
                 <div className="w-[120px] overflow-hidden rounded-[12px]" dangerouslySetInnerHTML={{ __html: qr }} />
               </figure>
