@@ -90,9 +90,13 @@ export function FAQ() {
             Questions, answered.
           </h2>
           <p className="t-body mt-4 text-ink-2">
-            Something else?{" "}
+            Something else? The{" "}
+            <Link href="/help/" className={linkCls}>
+              help centre
+            </Link>{" "}
+            answers every question, or{" "}
             <a href={`mailto:${site.contact.email}`} className={linkCls}>
-              Write to us
+              write to us
             </a>
             .
           </p>

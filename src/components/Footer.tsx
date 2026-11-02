@@ -15,6 +15,7 @@ const COLUMNS = [
   {
     title: "Help",
     links: [
+      { href: "/help/", label: "Help & support" },
       { href: "/download/#install", label: "How to install" },
       { href: "/upi/", label: "Get paid (UPI)" },
       { href: "/#faq", label: "FAQ" },
