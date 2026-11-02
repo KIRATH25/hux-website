@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Caveat, Instrument_Serif, Inter } from "next/font/google";
 import { site, withBase } from "@/config/site";
 import { DownloadProvider } from "@/components/DownloadProvider";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { RevealObserver } from "@/components/RevealObserver";
@@ -51,6 +52,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <DownloadProvider qr={qr} downloadUrl={downloadUrl}>
+          <AnnouncementBar />
           <Navbar />
           {children}
           <Footer />

@@ -52,11 +52,11 @@ export const site = {
      */
     url: process.env.NEXT_PUBLIC_APK_URL || withBase("/HUX.apk"),
     fileName: "HUX.apk",
-    version: "1.0.1", // apps/mobile/app.json
-    sizeMB: 98, // 98,300,083 bytes (EAS build 5b44bbf5, 1 Nov 2026; GitHub release v1.0.1)
+    version: "1.0.2", // apps/mobile/app.json
+    sizeMB: 98, // 98,320,256 bytes (EAS build 3a83a9da, 2 Nov 2026; GitHub release v1.0.2)
     minAndroid: "6.0", // minSdkVersion 23
-    updated: "1 Nov 2026",
-    sha256: "9eb050c211a046e67005ae0536ed783b8809c9988f64ce1407c6bba9f638347a",
+    updated: "2 Nov 2026",
+    sha256: "8fddf85a2fe529c6a703ccb35602853a9d631724d29898f8a531d1738fbd2e02",
     freeSpaceMB: 200,
   },
 
@@ -64,6 +64,9 @@ export const site = {
    * The iPhone version: the same HUX app (same account, same deals with Android users), opened in Safari and added to
    * the Home Screen. No App Store. Built and published from the app repo (scripts/build-web.mjs + deploy-web.mjs).
    */
+  /** The thin bar at the very top of every page. Empty string = no bar. */
+  announcement: "New updates are on the way: a coupons system is coming soon. Stay tuned!" as string,
+
   ios: {
     status: "web-app" as const,
     url: "https://kirath25.github.io/hux-app/",
